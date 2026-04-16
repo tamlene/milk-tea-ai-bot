@@ -1,0 +1,20 @@
+{
+  "name": "milk-tea-bot",
+  "version": "1.0.0",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.15.0",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^17.4.2",
+    "node-telegram-bot-api": "^0.67.0",
+    "openai": "^6.34.0",
+    "qrcode": "^1.5.4"
+  }
+}
