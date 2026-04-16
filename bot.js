@@ -25,7 +25,7 @@ let menu = [];
 bot.onText(/\/start/, (msg) => {
   bot.sendMessage(
     msg.chat.id,
-    "Chào con 🥰 Mẹ bán trà sữa nè\nGõ 'menu' để xem món nha!"
+    "Chào bạn 🥰 shop bán trà sữa nè\nGõ 'menu' để xem món nha!"
   );
 });
 
@@ -37,7 +37,7 @@ bot.on("message", async (msg) => {
 
   // 👉 xem menu
   if (text.includes("menu")) {
-    let msgMenu = "Menu của mẹ đây nè 🥰\n\n";
+    let msgMenu = "Menu của shop đây nè 🥰\n\n";
 
     menu.forEach((m) => {
       if (m.category !== "Topping") {
@@ -52,12 +52,12 @@ bot.on("message", async (msg) => {
   // 👉 đang chờ thanh toán
   if (userState[chatId]?.waitingPayment) {
     if (text.includes("done")) {
-      bot.sendMessage(chatId, "Mẹ nhận được rồi 😍 Đang làm món cho con nha!");
+      bot.sendMessage(chatId, "shop nhận được rồi 😍 Đang làm món cho bạn nha!");
       delete userState[chatId];
     } else {
       bot.sendMessage(
         chatId,
-        'Con đang thanh toán rồi nè 😆\nXong thì nhắn "done" cho mẹ nha ❤️'
+        'bạn đang thanh toán rồi nè 😆\nXong thì nhắn "done" cho shop nha ❤️'
       );
     }
     return;
@@ -82,14 +82,14 @@ bot.on("message", async (msg) => {
 
       await bot.sendMessage(
         chatId,
-        `Mẹ gửi QR thanh toán nè con 🥰\n💰 ${order.total.toLocaleString()}đ`
+        `shop gửi QR thanh toán nè bạn 🥰\n💰 ${order.total.toLocaleString()}đ`
       );
 
       await bot.sendPhoto(chatId, payment.qr);
 
       await bot.sendMessage(
         chatId,
-        `👉 Thanh toán: ${payment.link}\n\nXong nhắn "done" cho mẹ nha ❤️`
+        `👉 Thanh toán: ${payment.link}\n\nXong nhắn "done" cho shop nha ❤️`
       );
 
       // 🔥 FIX: reset state (xoá pendingOrder)
@@ -102,13 +102,13 @@ bot.on("message", async (msg) => {
 
     // ❌ huỷ đơn
     if (/(no|không|hủy)/.test(text)) {
-      bot.sendMessage(chatId, "Ok con, chọn lại món giúp mẹ nha 🥰");
+      bot.sendMessage(chatId, "Ok bạn, chọn lại món giúp shop nha 🥰");
       delete userState[chatId];
       return;
     }
 
     // 👉 nếu chưa trả lời rõ
-    bot.sendMessage(chatId, "Con xác nhận giúp mẹ (yes/no) nha 🥰");
+    bot.sendMessage(chatId, "bạn xác nhận giúp shop (yes/no) nha 🥰");
     return;
   }
 
@@ -131,7 +131,7 @@ bot.on("message", async (msg) => {
     if (!order || !order.items || order.items.length === 0) {
       bot.sendMessage(
         chatId,
-        "Mẹ chưa hiểu 😢\nCon thử lại hoặc gõ 'menu' nha 🥰"
+        "shop chưa hiểu 😢\nCon thử lại hoặc gõ 'menu' nha 🥰"
       );
       return;
     }
@@ -139,7 +139,7 @@ bot.on("message", async (msg) => {
     const result = calculateTotal(order, menu);
 
     if (result.details.length === 0) {
-      bot.sendMessage(chatId, "Món này mẹ chưa có nha 😢");
+      bot.sendMessage(chatId, "Món này shop chưa có nha 😢");
       return;
     }
 
@@ -149,18 +149,18 @@ bot.on("message", async (msg) => {
     };
 
     const response = `
-Mẹ nhận đơn nè con 🥰
+shop nhận đơn nè bạn 🥰
 
 ${result.details.join("\n")}
 
 💰 Tổng: ${result.total.toLocaleString()}đ
 
-👉 Xác nhận giúp mẹ (yes/no)
+👉 Xác nhận giúp shop (yes/no)
 `;
 
     bot.sendMessage(chatId, response);
   } catch (err) {
     console.error(err);
-    bot.sendMessage(chatId, "Mẹ hơi lú rồi 😢 thử lại nha");
+    bot.sendMessage(chatId, "shop hơi lú rồi 😢 thử lại nha");
   }
 });
