@@ -37,15 +37,17 @@ bot.on("message", async (msg) => {
 
   // 👉 xem menu
   if (text.includes("menu")) {
-    let msgMenu = "Menu của shop đây nè 🥰\n\n";
-
+    let drinks = "Menu đồ uống 🥤\n\n";
+    let toppings = "\nTopping thêm 🍡\n\n";
     menu.forEach((m) => {
-      if (m.category !== "Topping") {
-        msgMenu += `- ${m.name} (${m.price_m}đ / ${m.price_l}đ)\n`;
-      }
-    });
+      if (m.category === "Topping") {
+        toppings += `- ${m.name} (+${m.price_m}đ)\n`;
+       } else {
+        drinks += `- ${m.name} (${m.price_m}đ / ${m.price_l}đ)\n`;
+       }
+      });
 
-    bot.sendMessage(chatId, msgMenu);
+    bot.sendMessage(chatId, drinks + toppings);
     return;
   }
 
